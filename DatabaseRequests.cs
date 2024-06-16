@@ -10,7 +10,7 @@ public static class DatabaseRequests
     static string formattedDate = "";
     public static void GetAllUserTask(int Userid)
     {
-        var querySql = $"SELECT id, nametask, description, date_of_task FROM task WHERE userid = {Userid}; ";
+        var querySql = $"SELECT idtask, nametask, description, date_of_task FROM task WHERE userid = {Userid}; ";
 
 
         using var cmd = new NpgsqlCommand(querySql, DatabaseService.GetSqlConnection());
@@ -94,14 +94,14 @@ public static class DatabaseRequests
         string description = Console.ReadLine();
 
         var querySql =
-            $"INSERT INTO task(date_of_task, nametask, description, userid) VALUES ('{formattedDate}', '{taskname}', {description}, {Userid})";
+            $"INSERT INTO task(date_of_task, nametask, description, userid) VALUES ('{formattedDate}', '{taskname}', '{description}', {Userid})";
         using var cmd = new NpgsqlCommand(querySql, DatabaseService.GetSqlConnection());
         cmd.ExecuteNonQuery();
     }
     
     public static void UpdateTaskOfUser(int Userid)
     {
-        
+        Console.WriteLine();
         
         Console.Write("Выберете id Задачи, которую хотите Изменить:");
         int idt = int.Parse(Console.ReadLine());
@@ -192,4 +192,3 @@ public static class DatabaseRequests
       }
 
     
-}
