@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using Npgsql;
 
 namespace GarageConsoleApp;
@@ -101,15 +101,7 @@ public static class DatabaseRequests
     
     public static void UpdateTaskOfUser(int Userid)
     {
-        Console.WriteLine();
-       
-        var querySql = $"SELECT id, nametask, description, date_of_task FROM task WHERE user = {Userid}";
-        using var cmd = new NpgsqlCommand(querySql, DatabaseService.GetSqlConnection());
-        using var reader = cmd.ExecuteReader();
-        while (reader.Read())
-        {
-            Console.WriteLine($"Название задачи: {reader[0]} \nКогда: {reader[1]} \nДата: {reader[2]}");
-        }
+        
         
         Console.Write("Выберете id Задачи, которую хотите Изменить:");
         int idt = int.Parse(Console.ReadLine());
@@ -134,25 +126,17 @@ public static class DatabaseRequests
         var querySql2 = $"UPDATE task SET nametask = '{taskname}'," +
                         $"description = '{description}',"+
                         $"date_of_task = '{formattedDate}'" +
-                        $"WHERE user = {Userid} AND id = {idt};";
+                        $"WHERE userid = {Userid} AND idtask = {idt};";
         using var cmd1 = new NpgsqlCommand(querySql2, DatabaseService.GetSqlConnection());
         cmd1.ExecuteNonQuery();
     }
       
       public static void DeleteTask(int Userid)
       {
-          var querySql = $"SELECT id, nametask, description, date_of_task FROM task WHERE user = {Userid}";
-          using var cmd = new NpgsqlCommand(querySql, DatabaseService.GetSqlConnection());
-          using var reader = cmd.ExecuteReader();
-          while (reader.Read())
-          {
-              Console.WriteLine($"Название задачи: {reader[0]} \nКогда: {reader[1]} \nДата: {reader[2]}");
-          }
-        
           Console.Write("Выберете id Задачи, которую хотите удалить:");
           int idt = int.Parse(Console.ReadLine());
         
-          var querySql1 = $"DELETE FROM task WHERE id = {idt} AND user = {Userid};";
+          var querySql1 = $"DELETE FROM task WHERE idtask = {idt} AND userid = {Userid};";
           using var cmd1 = new NpgsqlCommand(querySql1, DatabaseService.GetSqlConnection());
           cmd1.ExecuteNonQuery();
       }
